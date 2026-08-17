@@ -22,11 +22,8 @@ public class JobPostingController {
     public ResponseEntity<JobPostingResponse> createJob(
             @Valid @RequestBody CreateJobRequest request) {
 
-        // Temporary user ID for testing
-        Long userId = 1L;
-
         JobPostingResponse response =
-                jobPostingService.createJob(request, userId);
+                jobPostingService.createJob(request);
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)

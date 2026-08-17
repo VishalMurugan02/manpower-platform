@@ -26,7 +26,7 @@ public class JwtService {
         );
     }
 
-    public String generateToken(String email) {
+    public String generateToken(String email, String role) {
 
         Date now = new Date();
 
@@ -36,6 +36,7 @@ public class JwtService {
 
         return Jwts.builder()
                 .subject(email)
+                .claim("role", role)
                 .issuedAt(now)
                 .expiration(expiryDate)
                 .signWith(getSigningKey())
@@ -46,6 +47,12 @@ public class JwtService {
 
         return getClaims(token)
                 .getSubject();
+    }
+
+    public String extractRole(String token) {
+
+        return getClaims(token)
+                .get("role", String.class);
     }
 
     private Claims getClaims(String token) {
@@ -70,5 +77,11 @@ public class JwtService {
         return getClaims(token)
                 .getExpiration()
                 .before(new Date());
+    }
+
+    // Returns JWT expiration in seconds
+    public long getExpirationInSeconds() {
+
+        return expiration / 1000;
     }
 }

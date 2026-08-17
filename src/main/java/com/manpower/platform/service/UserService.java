@@ -101,7 +101,8 @@ public class UserService {
 
         // Generate JWT after successful authentication
         String token = jwtService.generateToken(
-                user.getEmail()
+        user.getEmail(),
+        user.getRole()
         );
 
         return new LoginResponse(
@@ -112,7 +113,7 @@ public class UserService {
         "Login successful",
         token,
         "Bearer",
-        3600
-    );
+        jwtService.getExpirationInSeconds()
+);
     }
 }
